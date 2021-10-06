@@ -1,5 +1,5 @@
 # Dockerfile for Maihog (https://github.com/mailhog/MailHog)
-# Source: https://github.com/akaer/Win-MailHog
+# Source: https://github.com/akaer/Win-Dockerfiles/tree/main/Mailhog
 #
 # docker build -t akaer/win-mailhog .
 #
