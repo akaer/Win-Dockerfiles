@@ -12,10 +12,17 @@
 #
 # Run:
 #
-# docker run -it --rm --name win-selenium-chrome1 --hostname win-selenium-chrome1 -v "$(pwd)\data:c:\data" -p 9222:9222 akaer/win-selenium-chrome
+# docker run -it --rm --name win-selenium-chrome1 --hostname win-selenium-chrome1 -v ".\data:c:\data" -p 9222:9222 akaer/win-selenium-chrome
+#
+# HINTS:
+# Google Chromedriver is taken from
+# https://googlechromelabs.github.io/chrome-for-testing/#stable
+#
+# We tried before
+# https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_win32.zip"
 #
 
-FROM mcr.microsoft.com/windows/servercore:ltsc2019
+FROM mcr.microsoft.com/windows/servercore:ltsc2022
 LABEL maintainer "André Raabe <andre.raabe@gmail.com>"
 
 ENV POWERSHELL_TELEMETRY_OPTOUT=1
@@ -35,10 +42,10 @@ RUN Expand-Archive c:\windows\temp\Fonts.zip -DestinationPath c:\windows ; `
 	Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 
 RUN choco install googlechrome -y -q ; `
-	Invoke-WebRequest -Uri "https://chromedriver.storage.googleapis.com/94.0.4606.61/chromedriver_win32.zip" -OutFile "c:\windows\temp\chromedriver_win32.zip" ; `
+	Invoke-WebRequest -Uri "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/118.0.5993.70/win32/chromedriver-win32.zip" -OutFile "c:\windows\temp\chromedriver_win32.zip" ; `
 	Expand-Archive "c:\windows\temp\chromedriver_win32.zip" -DestinationPath "c:\windows" ; `
 	Remove-Item "c:\windows\temp\chromedriver_win32.zip" ; `
-	Copy-Item 'C:\Windows\chromedriver.exe' -Destination 'C:\Program Files\WindowsPowerShell\Modules\Selenium\3.0.1\assemblies' -Force ; `
+	Copy-Item 'C:\Windows\chromedriver-win32\chromedriver.exe' -Destination 'C:\Program Files\WindowsPowerShell\Modules\Selenium\3.0.1\assemblies' -Force ; `
 	New-Item -Path 'c:\' -Name 'data' -ItemType 'directory' > $NULL ; `
 	$oldpath = (Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name 'Path').Path ; `
 	$chromePath = 'C:\Program Files\Google\Chrome\Application' ; `
