@@ -8,7 +8,7 @@ $Global:testURL = 'https://google.de'
 $Global:Width = 1360
 $Global:Height = 1020
 
-Describe 'All in one Test' {
+Describe 'Simple Google search' {
 
     BeforeAll {
         $chromeOptions = New-Object OpenQA.Selenium.Chrome.ChromeOptions
@@ -22,6 +22,7 @@ Describe 'All in one Test' {
 
     It "Should open $Global:testURL" {
         $driver.Title | Should -Be 'Google'
+        $driver.GetScreenshot().SaveAsFile('screenshot1.png', 'png')
     }
 
     Describe 'Cookie banner handling' {
@@ -33,6 +34,7 @@ Describe 'All in one Test' {
         It 'Can find the cookie warning' {
             $cookieBtn | Should -Not -BeNullOrEmpty
             $cookieBtn.Text | Should -Be 'Alle akzeptieren'
+            $driver.GetScreenshot().SaveAsFile('screenshot2.png', 'png')
         }
 
         It 'Can accept the cookie warning' {
@@ -48,16 +50,18 @@ Describe 'All in one Test' {
 
         It 'Can find the search input' {
             $search | Should -Not -BeNullOrEmpty
+            $driver.GetScreenshot().SaveAsFile('screenshot3.png', 'png')
         }
 
         It 'Can enter search term and submit' {
             $search.SendKeys('Selenium Pester Powershell')
+            $driver.GetScreenshot().SaveAsFile('screenshot4.png', 'png')
             $search.Submit()
         }
     }
 
     AfterAll {
-        $driver.GetScreenshot().SaveAsFile('screenshot.png', 'png')
+        $driver.GetScreenshot().SaveAsFile('screenshot5.png', 'png')
 
         $driver.Close()
         $driver.Quit()
