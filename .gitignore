@@ -3,3 +3,4 @@
 govc/files/govc
 *.zip
 *.bak
+*.png

@@ -40,15 +40,15 @@ RUN Expand-Archive c:\windows\temp\Fonts.zip -DestinationPath c:\windows ; `
 RUN $ChromeVersionFile = 'c:\chromeversion.txt' ; `
 	Invoke-WebRequest -Uri "https://googlechromelabs.github.io/chrome-for-testing/LATEST_RELEASE_STABLE" -OutFile $ChromeVersionFile ; `
 	$ChromeVersion = Get-Content -Path $ChromeVersionFile ; `
-	Invoke-WebRequest -Uri "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/$ChromeVersion/win32/chromedriver-win32.zip" -OutFile 'c:\windows\temp\chromedriver_win32.zip' ; `
-	Invoke-WebRequest -Uri "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/$ChromeVersion/win32/chrome-win32.zip" -OutFile 'c:\windows\temp\chrome_win32.zip' ; `
-	Expand-Archive 'c:\windows\temp\chromedriver_win32.zip' -DestinationPath 'c:\windows' ; `
-	Expand-Archive 'c:\windows\temp\chrome_win32.zip' -DestinationPath 'c:\windows' ; `
-	Remove-Item 'c:\windows\temp\chromedriver_win32.zip' ; `
-	Remove-Item 'c:\windows\temp\chrome_win32.zip' ; `
-	Copy-Item 'c:\windows\chromedriver-win32\chromedriver.exe' -Destination 'c:\Program Files\WindowsPowerShell\Modules\Selenium\3.0.1\assemblies' -Force ; `
+	Invoke-WebRequest -Uri "https://storage.googleapis.com/chrome-for-testing-public/$ChromeVersion/win64/chrome-win64.zip" -OutFile 'c:\windows\temp\chromedriver_win64.zip' ; `
+	Invoke-WebRequest -Uri "https://storage.googleapis.com/chrome-for-testing-public/$ChromeVersion/win64/chromedriver-win64.zip" -OutFile 'c:\windows\temp\chrome_win64.zip' ; `
+	Expand-Archive 'c:\windows\temp\chromedriver_win64.zip' -DestinationPath 'c:\windows' ; `
+	Expand-Archive 'c:\windows\temp\chrome_win64.zip' -DestinationPath 'c:\windows' ; `
+	Remove-Item 'c:\windows\temp\chromedriver_win64.zip' ; `
+	Remove-Item 'c:\windows\temp\chrome_win64.zip' ; `
+	Copy-Item 'c:\windows\chromedriver-win64\chromedriver.exe' -Destination 'c:\Program Files\WindowsPowerShell\Modules\Selenium\3.0.1\assemblies' -Force ; `
 	New-Item -Path 'c:\' -Name 'data' -ItemType 'directory' > $NULL ; `
-	[Environment]::SetEnvironmentVariable('Path', 'c:\windows\chrome-win32;' + $env:Path, 'Machine')
+	[Environment]::SetEnvironmentVariable('Path', 'c:\windows\chrome-win64;' + $env:Path, 'Machine')
 
 VOLUME [ "c:\\data" ]
 WORKDIR "c:\\data"

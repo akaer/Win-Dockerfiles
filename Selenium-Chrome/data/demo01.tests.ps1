@@ -14,7 +14,7 @@ Describe 'Simple Google search' {
         $chromeOptions = New-Object OpenQA.Selenium.Chrome.ChromeOptions
 
         # https://peter.sh/experiments/chromium-command-line-switches/
-        $chromeOptions.AddArguments('headless', 'disable-gpu', 'no-sandbox', 'enable-logging', 'no-default-browser-check', 'no-first-run', 'remote-debugging-address=0.0.0.0', 'remote-debugging-port=9222')
+        $chromeOptions.AddArguments('headless', 'disable-gpu', 'no-sandbox', 'enable-logging', 'no-default-browser-check', 'no-first-run', '--log-level=3', '--password-store=basic')
         $driver = New-Object OpenQA.Selenium.Chrome.ChromeDriver($chromeOptions)
         $driver.Manage().Window.Size = new-Object System.Drawing.Size($Global:Width, $Global:Height)
         $driver.Navigate().GoToUrl($Global:testURL)
@@ -22,7 +22,7 @@ Describe 'Simple Google search' {
 
     It "Should open $Global:testURL" {
         $driver.Title | Should -Be 'Google'
-        $driver.GetScreenshot().SaveAsFile('screenshot1.png', 'png')
+        $driver.GetScreenshot().SaveAsFile('screenshot1a.png', 'png')
     }
 
     Describe 'Cookie banner handling' {
@@ -34,7 +34,7 @@ Describe 'Simple Google search' {
         It 'Can find the cookie warning' {
             $cookieBtn | Should -Not -BeNullOrEmpty
             $cookieBtn.Text | Should -Be 'Alle akzeptieren'
-            $driver.GetScreenshot().SaveAsFile('screenshot2.png', 'png')
+            $driver.GetScreenshot().SaveAsFile('screenshot2a.png', 'png')
         }
 
         It 'Can accept the cookie warning' {
@@ -50,18 +50,18 @@ Describe 'Simple Google search' {
 
         It 'Can find the search input' {
             $search | Should -Not -BeNullOrEmpty
-            $driver.GetScreenshot().SaveAsFile('screenshot3.png', 'png')
+            $driver.GetScreenshot().SaveAsFile('screenshot3a.png', 'png')
         }
 
         It 'Can enter search term and submit' {
             $search.SendKeys('Selenium Pester Powershell')
-            $driver.GetScreenshot().SaveAsFile('screenshot4.png', 'png')
+            $driver.GetScreenshot().SaveAsFile('screenshot4a.png', 'png')
             $search.Submit()
         }
     }
 
     AfterAll {
-        $driver.GetScreenshot().SaveAsFile('screenshot5.png', 'png')
+        $driver.GetScreenshot().SaveAsFile('screenshot5a.png', 'png')
 
         $driver.Close()
         $driver.Quit()
